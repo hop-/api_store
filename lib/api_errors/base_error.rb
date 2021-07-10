@@ -1,18 +1,13 @@
 module ApiErrors
   class BaseError < StandardError
     index ActiveModel::Serialization
-    attr_read :name, :message
+    attr_read :name, :status_code, :message, :errors
 
-    ERROR_DESCRIPTION = Proc.new { |name, message|
-      {
-        name: name,
-        message: message,
-      }
-    }
-
-    def initialize(name, message)
+    def initialize(name, status_code, message, errors)
       @name = name
+      @status_code = status_code
       @message = message
+      @errors = errors
     end
   end
 end
