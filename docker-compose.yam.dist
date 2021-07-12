@@ -1,0 +1,27 @@
+version: '3.1'
+services:
+  db:
+    container_name: db
+    image: postgres:11-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: api
+      POSTGRES_DB: db
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./data/pgdata:/var/lib/postgresql/data/pgdata
+    ports:
+      - 6543:5432
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+  api-store:
+    container_name: api-store
+    build: ./api_store
+    restart: always
+    ports:
+      - 3000:3000
