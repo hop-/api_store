@@ -1,7 +1,9 @@
+require_relative 'base_error'
+
 module ApiErrors
   class SingleError < BaseError
     def initialize(name, status_code, message, slug, details = {})
-      initialize(name,
+      super(name,
         status_code,
         message,
         [{

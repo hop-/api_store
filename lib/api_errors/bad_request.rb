@@ -1,7 +1,9 @@
+require_relative 'single_error'
+
 module ApiErrors
   class BadRequest < SingleError
-    def initialize(messasge, slug)
-      super.initialize('bad-request', 400, message, slug)
+    def initialize(message, slug)
+      super 'bad-request', 400, message, slug
     end
   end
 end

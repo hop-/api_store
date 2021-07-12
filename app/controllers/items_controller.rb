@@ -1,3 +1,5 @@
+require "#{Rails.root}/lib/api_errors/not_found"
+
 class ItemsController < ApplicationController
   def index
     items = Item.order("created_at DESC")
@@ -6,7 +8,10 @@ class ItemsController < ApplicationController
   end
 
   def show
-    item = Item.find(params[:id])
+    item = Item.find_by_id(params[:id])
+    if item.blank?
+      raise ApiErrors::NotFound.new("Couldn't find item with id '#{params[:id]}'", 'item')
+    end
 
     render json: item
   end
@@ -18,7 +23,11 @@ class ItemsController < ApplicationController
   end
 
   def update
-    item = Item.find(params[:id])
+    item = Item.find_by_id(params[:id])
+    if item.blank?
+      raise ApiErrors::NotFound.new("Couldn't find item with id '#{params[:id]}'", 'item')
+    end
+
     item.update(item_params)
 
     render json: item
