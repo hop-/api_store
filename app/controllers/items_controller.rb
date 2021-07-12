@@ -34,7 +34,12 @@ class ItemsController < ApplicationController
   end
 
   def destroy
-    Item.find(params[:id]).destroy
+    item = Item.find_by_id(params[:id])
+    if item.blank?
+      raise ApiErrors::NotFound.new("Couldn't find item with id '#{params[:id]}'", 'item')
+    end
+    
+    item.destroy
 
     head :no_content, status: :ok
   end
